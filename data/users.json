@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "email": "admin@docflow.ru",
+    "password_hash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  },
+  {
+    "id": 2,
+    "email": "ivanov@docflow.ru",
+    "password_hash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
+  }
+]

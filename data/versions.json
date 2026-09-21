@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "version_num": "1.0",
+    "file_size_mb": 2.4,
+    "release_date": "2026-09-10",
+    "is_signed": true,
+    "author_id": 2,
+    "document_id": 1
+  },
+  {
+    "id": 2,
+    "version_num": "1.1",
+    "file_size_mb": 2.6,
+    "release_date": "2026-09-15",
+    "is_signed": false,
+    "author_id": 2,
+    "document_id": 1
+  },
+  {
+    "id": 3,
+    "version_num": "1.0",
+    "file_size_mb": 5.1,
+    "release_date": "2026-09-20",
+    "is_signed": true,
+    "author_id": 1,
+    "document_id": 2
+  }
+]
