@@ -1,8 +1,9 @@
 import hashlib
+from typing import List, Optional
 
 
 class User:
-    """Класс, описывающий пользователя системы (сотрудника / автора документа)."""
+    """Класс, описывающий пользователя системы."""
 
     def __init__(self, id: int, email: str, password_hash: str) -> None:
         """
@@ -16,8 +17,7 @@ class User:
     @staticmethod
     def hash_password(password: str) -> str:
         """
-        Статический метод для детерминированного хэширования пароля через SHA-256.
-        Не зависит от перезапусков программы.
+        Статический метод для детерминированного хэширования через SHA-256.
         """
         return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
@@ -42,3 +42,11 @@ class User:
             email=data["email"],
             password_hash=data["password_hash"]
         )
+
+
+def find_user_by_id(users: List[User], user_id: int) -> Optional[User]:
+    """Найти пользователя по идентификатору."""
+    for user in users:
+        if user.id == user_id:
+            return user
+    return None

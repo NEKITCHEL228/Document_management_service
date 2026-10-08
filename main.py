@@ -140,13 +140,19 @@ def create_document_flow(
     chosen_categories: List[Category] = []
     if categories:
         show_categories(categories)
-        cat_id = input_int("Введите ID категории для привязки (или 0 для пропуска): ")
+        cat_prompt = (
+            "Введите ID категории для привязки (или 0 для пропуска): "
+        )
+        cat_id = input_int(cat_prompt)
         if cat_id != 0:
             matched = next((c for c in categories if c.id == cat_id), None)
             if matched:
                 chosen_categories.append(matched)
             else:
-                print("Категория с таким ID не найдена. Документ создан без категории.")
+                print(
+                    "Категория с таким ID не найдена. "
+                    "Документ создан без категории."
+                )
 
     new_id = get_next_id(documents)
     # Исправлено: параметр id
@@ -232,7 +238,10 @@ def add_version_flow(
     """Сценарий создания новой версии документа."""
     print("\n--- ДОБАВЛЕНИЕ НОВОЙ ВЕРСИИ ---")
     if not documents or not users:
-        print("Для добавления версии необходим хотя бы один документ и один пользователь!")
+        print(
+            "Для добавления версии необходим хотя бы один документ "
+            "и один пользователь!"
+        )
         return
 
     show_documents(documents)
@@ -264,7 +273,10 @@ def add_version_flow(
     )
 
     if not new_version.is_valid_size(max_size_mb=15.0):
-        print("Внимание: размер файла превышает лимит (15 МБ). Версия отклонена.")
+        print(
+            "Внимание: размер файла превышает лимит (15 МБ). "
+            "Версия отклонена."
+        )
         return
 
     versions.append(new_version)
@@ -367,4 +379,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main()

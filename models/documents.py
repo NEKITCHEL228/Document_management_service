@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from .categories import Category
 
 
@@ -23,7 +23,9 @@ class Document:
         self.title = title
         self.content = content
         # Используем список (List), так как он легко сохраняется в JSON
-        self.categories: List[Category] = categories if categories is not None else []
+        self.categories: List[Category] = (
+            categories if categories is not None else []
+        )
 
     def add_category(self, category: Category) -> None:
         """Добавляет категорию к документу (с проверкой на дубликаты)."""
@@ -41,13 +43,20 @@ class Document:
 
     def __str__(self) -> str:
         """
-        Строковое представление документа со списком названий привязанных категорий.
+        Строковое представление документа со списком категорий.
         """
-        cat_names = ", ".join([c.name for c in self.categories]) if self.categories else "нет категорий"
+        cat_names = (
+            ", ".join([c.name for c in self.categories])
+            if self.categories else "нет категорий"
+        )
         return f"Документ #{self.id} '{self.title}' (Категории: {cat_names})"
 
     @classmethod
-    def from_data(cls, data: dict, all_categories: List[Category]) -> "Document":
+    def from_data(
+        cls,
+        data: dict,
+        all_categories: List[Category],
+    ) -> "Document":
         """
         Восстанавливает документ из JSON, связывая его по ID
         с реальными объектами Category из переданного списка all_categories.
@@ -61,3 +70,14 @@ class Document:
             content=data.get("content", ""),
             categories=matched_categories
         )
+
+
+def find_document_by_id(
+    documents: List[Document],
+    doc_id: int,
+) -> Optional[Document]:
+    """Найти документ по идентификатору."""
+    for document in documents:
+        if document.id == doc_id:
+            return document
+    return None

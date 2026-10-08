@@ -1,5 +1,8 @@
+from typing import List, Optional
+
+
 class Category:
-    """Класс, представляющий категорию документов (например, 'Бухгалтерия', 'Приказы')."""
+    """Класс, представляющий категорию документов."""
 
     def __init__(self, id: int, name: str, description: str) -> None:
         """
@@ -30,3 +33,14 @@ class Category:
             name=data["name"],
             description=data.get("description", "")
         )
+
+
+def find_category_by_id(
+    categories: List[Category],
+    cat_id: int,
+) -> Optional[Category]:
+    """Найти категорию по идентификатору."""
+    for category in categories:
+        if category.id == cat_id:
+            return category
+    return None

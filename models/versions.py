@@ -1,4 +1,5 @@
 from datetime import date
+from typing import List, Optional
 from .users import User
 from .documents import Document
 
@@ -6,7 +7,7 @@ from .documents import Document
 class Version:
     """
     Класс версии документа.
-    Связующая сущность (композиция): хранит ссылку на объект Document и объект User (автора).
+    Связующая сущность (композиция): хранит ссылку на Document и User.
     """
 
     def __init__(
@@ -52,8 +53,21 @@ class Version:
         """
         status = "Подписан" if self.is_signed else "Черновик (не подписан)"
         date_str = self.release_date.strftime("%d.%m.%Y")
+        doc_title = self.document.title
         return (
-            f"Версия v{self.version_num} (ID: {self.id}) к документу '{self.document.title}' | "
-            f"Автор: {self.author.email} | Размер: {self.file_size_mb} МБ | "
-            f"Дата: {date_str} | Статус: {status}"
+            f"Версия v{self.version_num} (ID: {self.id}) к документу "
+            f"'{doc_title}' | Автор: {self.author.email} | "
+            f"Размер: {self.file_size_mb} МБ | Дата: {date_str} | "
+            f"Статус: {status}"
         )
+
+
+def find_version_by_id(
+    versions: List[Version],
+    ver_id: int,
+) -> Optional[Version]:
+    """Найти версию документа по идентификатору."""
+    for version in versions:
+        if version.id == ver_id:
+            return version
+    return None

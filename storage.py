@@ -1,20 +1,35 @@
 import json
 import os
 from datetime import date
-from typing import List, Optional
+from typing import List
 from models import Category, User, Document, Version
 
 # Пути к файлам данных по умолчанию
-DATA_DIR = "data"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 CATEGORIES_FILE = os.path.join(DATA_DIR, "categories.json")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 DOCUMENTS_FILE = os.path.join(DATA_DIR, "documents.json")
 VERSIONS_FILE = os.path.join(DATA_DIR, "versions.json")
 
+
+def _resolve_path(filepath: str) -> str:
+    """Возвращает существующий путь к файлу с учетом путей."""
+    if os.path.isabs(filepath) or os.path.exists(filepath):
+        return filepath
+    alt = os.path.join(BASE_DIR, filepath)
+    if os.path.exists(alt):
+        return alt
+    return filepath
+
+
 # Категории
 
-def load_categories(filepath: str = CATEGORIES_FILE) -> List[Category]:
-    """Загружает категории из JSON-файла и возвращает список объектов Category."""
+def load_categories(
+    filepath: str = CATEGORIES_FILE
+) -> List[Category]:
+    """Загружает категории из JSON-файла."""
+    filepath = _resolve_path(filepath)
     if not os.path.exists(filepath):
         return []
     try:
@@ -26,8 +41,12 @@ def load_categories(filepath: str = CATEGORIES_FILE) -> List[Category]:
         return []
 
 
-def save_categories(categories: List[Category], filepath: str = CATEGORIES_FILE) -> None:
+def save_categories(
+    categories: List[Category],
+    filepath: str = CATEGORIES_FILE,
+) -> None:
     """Преобразует объекты Category в словари и сохраняет их в JSON."""
+    filepath = _resolve_path(filepath)
     data = [
         {"id": c.id, "name": c.name, "description": c.description}
         for c in categories
@@ -37,8 +56,10 @@ def save_categories(categories: List[Category], filepath: str = CATEGORIES_FILE)
 
 # Пользователи
 
+
 def load_users(filepath: str = USERS_FILE) -> List[User]:
     """Загружает пользователей из JSON и возвращает список объектов User."""
+    filepath = _resolve_path(filepath)
     if not os.path.exists(filepath):
         return []
     try:
@@ -52,6 +73,7 @@ def load_users(filepath: str = USERS_FILE) -> List[User]:
 
 def save_users(users: List[User], filepath: str = USERS_FILE) -> None:
     """Преобразует объекты User в словари и сохраняет в JSON."""
+    filepath = _resolve_path(filepath)
     data = [
         {"id": u.id, "email": u.email, "password_hash": u.password_hash}
         for u in users
@@ -61,33 +83,42 @@ def save_users(users: List[User], filepath: str = USERS_FILE) -> None:
 
 # Документы
 
+
 def load_documents(
     all_categories: List[Category],
-    filepath: str = DOCUMENTS_FILE
+    filepath: str = DOCUMENTS_FILE,
 ) -> List[Document]:
     """
     Загружает документы и связывает каждый документ
     с объектами Category из списка all_categories.
     """
+    filepath = _resolve_path(filepath)
     if not os.path.exists(filepath):
         return []
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             raw_data = json.load(f)
-            return [Document.from_data(item, all_categories) for item in raw_data]
+            return [
+                Document.from_data(item, all_categories)
+                for item in raw_data
+            ]
     except (json.JSONDecodeError, KeyError) as e:
         print(f"Ошибка при чтении документов: {e}")
         return []
 
 
-def save_documents(documents: List[Document], filepath: str = DOCUMENTS_FILE) -> None:
-    """Сохраняет документы, превращая ссылки на Category обратно в category_ids."""
+def save_documents(
+    documents: List[Document],
+    filepath: str = DOCUMENTS_FILE,
+) -> None:
+    """Сохраняет документы в JSON-файл."""
+    filepath = _resolve_path(filepath)
     data = [
         {
             "id": d.id,
             "title": d.title,
             "content": d.content,
-            "category_ids": [c.id for c in d.categories]
+            "category_ids": [c.id for c in d.categories],
         }
         for d in documents
     ]
@@ -96,15 +127,17 @@ def save_documents(documents: List[Document], filepath: str = DOCUMENTS_FILE) ->
 
 # Версии
 
+
 def load_versions(
     all_documents: List[Document],
     all_users: List[User],
-    filepath: str = VERSIONS_FILE
+    filepath: str = VERSIONS_FILE,
 ) -> List[Version]:
     """
     Загружает версии и связывает их с соответствующими
     объектами Document и User по их ID.
     """
+    filepath = _resolve_path(filepath)
     if not os.path.exists(filepath):
         return []
     try:
@@ -113,12 +146,15 @@ def load_versions(
 
         versions: List[Version] = []
         for item in raw_data:
-            # Находим живой объект Document
-            doc = next((d for d in all_documents if d.id == item["document_id"]), None)
-            # Находим живой объект User (автора)
-            user = next((u for u in all_users if u.id == item["author_id"]), None)
+            doc = next(
+                (d for d in all_documents if d.id == item["document_id"]),
+                None,
+            )
+            user = next(
+                (u for u in all_users if u.id == item["author_id"]),
+                None,
+            )
 
-            # Если связанные объекты найдены — создаем Version
             if doc and user:
                 versions.append(
                     Version(
@@ -128,7 +164,7 @@ def load_versions(
                         release_date=date.fromisoformat(item["release_date"]),
                         is_signed=item["is_signed"],
                         author=user,
-                        document=doc
+                        document=doc,
                     )
                 )
         return versions
@@ -137,8 +173,12 @@ def load_versions(
         return []
 
 
-def save_versions(versions: List[Version], filepath: str = VERSIONS_FILE) -> None:
-    """Сохраняет версии, заменяя объекты author и document на их ID."""
+def save_versions(
+    versions: List[Version],
+    filepath: str = VERSIONS_FILE,
+) -> None:
+    """Сохраняет версии в JSON-файл."""
+    filepath = _resolve_path(filepath)
     data = [
         {
             "id": v.id,
@@ -147,12 +187,13 @@ def save_versions(versions: List[Version], filepath: str = VERSIONS_FILE) -> Non
             "release_date": v.release_date.isoformat(),
             "is_signed": v.is_signed,
             "author_id": v.author.id,
-            "document_id": v.document.id
+            "document_id": v.document.id,
         }
         for v in versions
     ]
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
 
 def load_data_from_all_files() -> tuple:
     """
