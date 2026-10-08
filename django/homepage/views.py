@@ -1,4 +1,13 @@
 from django.shortcuts import render
+from django.template.loader import render_to_string
+
+
+def page(title: str, content: str) -> str:
+    """
+    Вспомогательная функция-каркас HTML из требований методички ПР5.
+    Использует единый макет base.html.
+    """
+    return render_to_string("base.html", {"title": title, "content": content})
 
 
 def index(request):
