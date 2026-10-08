@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}DocFlow – Главная страница{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+    <div class="container-fluid py-2">
+        <h1 class="display-5 fw-bold text-primary">DocFlow – Сервис управления документами</h1>
+        <p class="col-md-9 fs-5 text-secondary">
+            Система для централизованного хранения, классификации, контроля версий
+            и проверки статуса согласования электронных документов.
+        </p>
+        <hr class="my-4">
+        <p class="fw-semibold">Основные разделы системы:</p>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="/documents/" class="btn btn-primary btn-lg">Документы</a>
+            <a href="/categories/" class="btn btn-secondary btn-lg">Категории</a>
+            <a href="/versions/" class="btn btn-outline-dark btn-lg">Журнал версий (ЭЦП)</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

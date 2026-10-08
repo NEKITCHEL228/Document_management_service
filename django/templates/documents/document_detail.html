@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Документ: {{ document.title }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm my-4 border">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <span>Документ #{{ document.id }}</span>
+        <span class="badge bg-light text-primary">ID: {{ document.id }}</span>
+    </div>
+    <div class="card-body">
+        <h2 class="card-title mb-3">{{ document.title }}</h2>
+        <div class="mb-4">
+            <strong>Тематические категории:</strong>
+            <div class="mt-2">
+                {% if document.categories %}
+                    {% for cat in document.categories %}
+                    <a href="/categories/{{ cat.id }}/" class="badge bg-info text-dark text-decoration-none me-2 p-2">
+                        {{ cat.name }}
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <span class="text-muted">Категории не назначены</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="p-3 bg-light rounded border mb-4">
+            <h6 class="text-muted">Содержание документа:</h6>
+            <p class="card-text mb-0" style="white-space: pre-wrap;">{{ document.content|default:"Содержимое отсутствует" }}</p>
+        </div>
+        <a href="/documents/" class="btn btn-outline-secondary">← к списку документов</a>
+        <a href="/versions/" class="btn btn-outline-info ms-2">Журнал версий</a>
+    </div>
+</div>
+{% endblock %}

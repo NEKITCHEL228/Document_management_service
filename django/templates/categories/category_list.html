@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}DocFlow – Категории документов{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h2">Категории документов</h1>
+    <a href="/" class="btn btn-outline-secondary btn-sm">На главную</a>
+</div>
+
+<ul class="list-group shadow-sm">
+    {% for cat in categories %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <a href="/categories/{{ cat.id }}/" class="fw-semibold text-decoration-none">
+                #{{ cat.id }} {{ cat.name }}
+            </a>
+            <div class="text-muted small">{{ cat.description|default:"Описание отсутствует" }}</div>
+        </div>
+        <a href="/categories/{{ cat.id }}/" class="btn btn-sm btn-outline-primary">Подробнее</a>
+    </li>
+    {% empty %}
+    <li class="list-group-item text-muted">Категорий пока нет.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

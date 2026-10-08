@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}DocFlow – Реестр документов{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h2">Реестр документов</h1>
+    <a href="/" class="btn btn-outline-secondary btn-sm">На главную</a>
+</div>
+
+<ul class="list-group shadow-sm">
+    {% for doc in documents %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <a href="/documents/{{ doc.id }}/" class="fw-bold text-decoration-none fs-5">
+                #{{ doc.id }} {{ doc.title }}
+            </a>
+            <div class="mt-1">
+                {% if doc.categories %}
+                    {% for cat in doc.categories %}
+                    <span class="badge bg-info text-dark me-1">{{ cat.name }}</span>
+                    {% endfor %}
+                {% else %}
+                    <span class="badge bg-light text-muted border">Без категорий</span>
+                {% endif %}
+            </div>
+        </div>
+        <a href="/documents/{{ doc.id }}/" class="btn btn-sm btn-outline-primary">Открыть</a>
+    </li>
+    {% empty %}
+    <li class="list-group-item text-muted">Документов пока нет.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}DocFlow – Журнал версий документов{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h2">Журнал версий документов</h1>
+    <a href="/" class="btn btn-outline-secondary btn-sm">На главную</a>
+</div>
+
+<ul class="list-group shadow-sm">
+    {% for ver in versions %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <a href="/versions/{{ ver.id }}/" class="fw-bold text-decoration-none">
+                v{{ ver.version_num }} – {{ ver.document.title }}
+            </a>
+            <div class="small text-muted mt-1">
+                Автор: {{ ver.author.email }} | Дата: {{ ver.release_date|date:"d.m.Y" }} | Размер: {{ ver.file_size_mb }} МБ
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            {% if ver.is_signed %}
+            <span class="badge bg-success">Подписан ЭЦП</span>
+            {% else %}
+            <span class="badge bg-warning text-dark">Не подписан</span>
+            {% endif %}
+            <a href="/versions/{{ ver.id }}/" class="btn btn-sm btn-outline-primary">Детали</a>
+        </div>
+    </li>
+    {% empty %}
+    <li class="list-group-item text-muted">Версий пока нет.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

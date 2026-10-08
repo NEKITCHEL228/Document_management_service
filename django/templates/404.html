@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}404 – Страница не найдена{% endblock %}
+
+{% block content %}
+<div class="card border-danger shadow-sm my-4">
+    <div class="card-body text-center py-5">
+        <h1 class="text-danger display-4 fw-bold mb-3">404 – Страница не найдена</h1>
+        <p class="lead text-muted mb-4">
+            Запрашиваемый ресурс не найден в системе DocFlow.
+        </p>
+        <a href="/" class="btn btn-primary px-4">← На главную</a>
+    </div>
+</div>
+{% endblock %}

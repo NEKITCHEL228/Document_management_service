@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Версия v{{ version.version_num }} – {{ version.document.title }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm my-4 border">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <span>Редакция v{{ version.version_num }} (ID: {{ version.id }})</span>
+        {% if version.is_signed %}
+        <span class="badge bg-success">Подписан ЭЦП</span>
+        {% else %}
+        <span class="badge bg-secondary">Черновик (ЭЦП не установлена)</span>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <h3 class="card-title mb-3">Документ: {{ version.document.title }}</h3>
+        <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item">
+                <strong>Номер версии:</strong> v{{ version.version_num }}
+            </li>
+            <li class="list-group-item">
+                <strong>Автор редакции:</strong> {{ version.author.email }}
+            </li>
+            <li class="list-group-item">
+                <strong>Дата изменения:</strong> {{ version.release_date|date:"d.m.Y" }}
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>Размер файла:</strong> {{ version.file_size_mb }} МБ
+                </div>
+                {% if version.is_valid_size %}
+                <span class="badge bg-success">Корректный размер</span>
+                {% else %}
+                <span class="badge bg-danger">Превышен лимит размера</span>
+                {% endif %}
+            </li>
+            <li class="list-group-item">
+                <strong>Статус ЭЦП:</strong>
+                {% if version.is_signed %}
+                <span class="badge bg-success ms-1">Подписан электронной подписью</span>
+                {% else %}
+                <span class="badge bg-secondary ms-1">Черновик</span>
+                {% endif %}
+            </li>
+        </ul>
+        <div class="d-flex gap-2">
+            <a href="/versions/" class="btn btn-outline-secondary">← к журналу версий</a>
+            <a href="/documents/{{ version.document.id }}/" class="btn btn-primary">К документу</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

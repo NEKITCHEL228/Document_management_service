@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}404 – Страница не найдена{% endblock %}
+
+{% block content %}
+<div class="card border-danger shadow-sm my-4">
+    <div class="card-body text-center py-5">
+        <h1 class="text-danger display-4 fw-bold mb-3">404 – Страница не найдена</h1>
+        <p class="lead text-muted mb-4">
+            {{ message|default:"Запрашиваемый ресурс, документ, категория или версия не существуют." }}
+        </p>
+        <div class="d-flex justify-content-center gap-2">
+            <a href="/" class="btn btn-primary px-4">← На главную</a>
+            {% if back_url %}
+            <a href="{{ back_url }}" class="btn btn-outline-secondary px-4">{{ back_label|default:"Назад" }}</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

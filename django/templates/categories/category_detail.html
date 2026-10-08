@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Категория: {{ category.name }}{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm my-4 border">
+    <div class="card-header bg-secondary text-white">
+        Категория #{{ category.id }}
+    </div>
+    <div class="card-body">
+        <h3 class="card-title text-primary mb-3">{{ category.name }}</h3>
+        <p class="card-text">
+            <strong>Описание:</strong> {{ category.description|default:"Описание отсутствует" }}
+        </p>
+        <hr>
+        <a href="/categories/" class="btn btn-outline-secondary">← к списку категорий</a>
+        <a href="/documents/" class="btn btn-outline-primary ms-2">К реестру документов</a>
+    </div>
+</div>
+{% endblock %}
