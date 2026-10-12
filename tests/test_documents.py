@@ -48,3 +48,19 @@ def test_document_from_data_linking():
     doc = Document.from_data(raw_data, all_categories)
     assert len(doc.categories) == 1
     assert doc.categories[0] is cat_hr
+
+
+def test_document_change_categories_and_str():
+    """Проверка смены категорий и строкового представления документа."""
+    cat1 = Category(id=1, name="Бухгалтерия", description="")
+    doc = Document(id=10, title="Накладная.pdf", content="", categories=[cat1])
+
+    assert "Бухгалтерия" in str(doc)
+
+    cat2 = Category(id=2, name="Архив", description="")
+    doc.change_categories([cat2])
+    assert doc.categories == [cat2]
+    assert "Архив" in str(doc)
+
+    doc_empty = Document(id=11, title="Пустой.txt", content="")
+    assert "нет категорий" in str(doc_empty)

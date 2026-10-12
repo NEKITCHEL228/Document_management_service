@@ -40,3 +40,15 @@ def test_user_from_data():
     assert user.id == 2
     assert user.email == "admin@docflow.ru"
     assert user.password_hash == "hash12345"
+
+
+def test_find_user_by_id():
+    """Проверка поиска пользователя по ID."""
+    from models.users import find_user_by_id
+    u1 = User(id=1, email="u1@test.ru", password_hash="h1")
+
+    u2 = User(id=2, email="u2@test.ru", password_hash="h2")
+
+    assert find_user_by_id([u1, u2], 1) == u1
+    assert find_user_by_id([u1, u2], 2) == u2
+    assert find_user_by_id([u1, u2], 99) is None

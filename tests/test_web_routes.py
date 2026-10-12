@@ -40,6 +40,14 @@ def test_homepage_status(client):
     assert "DocFlow" in response.content.decode("utf-8")
 
 
+def test_homepage_page_helper():
+    """Проверка вспомогательной функции-каркаса page() из homepage.views."""
+    from homepage.views import page
+    rendered = page("Заголовок", "<p>Контент</p>")
+    assert "Заголовок" in rendered
+    assert "<p>Контент</p>" in rendered
+
+
 def test_documents_routes(client):
     """Проверка списка документов и детальной страницы."""
     res_list = client.get("/documents/")
