@@ -1,0 +1,3 @@
+[tool.pyrefly]
+search-path = ["django"]
+python-interpreter-path = ".venv/Scripts/python.exe"
