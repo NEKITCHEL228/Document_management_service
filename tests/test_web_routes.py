@@ -4,8 +4,8 @@ from pathlib import Path
 from datetime import date
 import pytest
 
-# Добавляем каталог django в sys.path для импорта Document_management_service
-DJANGO_DIR = Path(__file__).resolve().parent.parent / "django"
+# Добавляем каталог my_django_project в sys.path для импорта Document_management_service
+DJANGO_DIR = Path(__file__).resolve().parent.parent / "my_django_project"
 if str(DJANGO_DIR) not in sys.path:
     sys.path.insert(0, str(DJANGO_DIR))
 
