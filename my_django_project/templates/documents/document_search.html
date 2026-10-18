@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск документов – DocFlow{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h2 mb-0">Поиск документов</h1>
+    <a href="{% url 'documents:list' %}" class="btn btn-outline-secondary btn-sm">К реестру документов</a>
+</div>
+
+<div class="card shadow-sm p-4 mb-4 border">
+    <form method="get" action="{% url 'documents:search' %}">
+        <label for="search-input" class="form-label fw-semibold">Ключевое слово (в названии или тексте документа):</label>
+        <div class="input-group">
+            <input
+                type="text"
+                id="search-input"
+                name="q"
+                class="form-control"
+                placeholder="Например: договор, баланс, отчет..."
+                value="{{ query }}"
+                required
+            >
+            <button class="btn btn-primary px-4" type="submit">Найти (SQL)</button>
+        </div>
+    </form>
+</div>
+
+{% if query %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Результаты поиска для: «{{ query }}»</h2>
+        <span class="badge bg-secondary fs-6">Найдено: {{ documents|length }}</span>
+    </div>
+
+    <div class="document-list">
+        {% for doc in documents %}
+            {% include "documents/includes/document_card.html" %}
+        {% empty %}
+            <div class="alert alert-warning">
+                По запросу «{{ query }}» ничего не найдено.
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

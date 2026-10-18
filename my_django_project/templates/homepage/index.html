@@ -8,7 +8,7 @@
         <h1 class="display-5 fw-bold text-primary">DocFlow – Сервис управления документами</h1>
         <p class="col-md-9 fs-5 text-secondary">
             Система для централизованного хранения, классификации, контроля версий
-            и проверки статуса согласования электронных документов.
+            и проверки статуса согласования электронных документов на базе SQLite.
         </p>
         <hr class="my-4">
         <p class="fw-semibold">Основные разделы системы:</p>
@@ -16,6 +16,8 @@
             <a href="{% url 'documents:list' %}" class="btn btn-primary btn-lg">Документы</a>
             <a href="{% url 'categories:list' %}" class="btn btn-secondary btn-lg">Категории</a>
             <a href="{% url 'versions:list' %}" class="btn btn-outline-dark btn-lg">Журнал версий (ЭЦП)</a>
+            <a href="{% url 'documents:search' %}" class="btn btn-outline-primary btn-lg">Поиск</a>
+            <a href="{% url 'documents:statistics' %}" class="btn btn-outline-success btn-lg">Статистика</a>
         </div>
     </div>
 </div>

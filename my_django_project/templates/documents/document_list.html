@@ -8,7 +8,10 @@
         <h1 class="h2 mb-0">Реестр документов</h1>
         <p class="text-muted mt-1 mb-0">Всего документов: {{ documents|length }}</p>
     </div>
-    <a href="{% url 'homepage:index' %}" class="btn btn-outline-secondary btn-sm">На главную</a>
+    <div class="d-flex gap-2">
+        <a href="{% url 'documents:search' %}" class="btn btn-primary btn-sm">Поиск документов</a>
+        <a href="{% url 'homepage:index' %}" class="btn btn-outline-secondary btn-sm">На главную</a>
+    </div>
 </div>
 
 <div class="document-list">
