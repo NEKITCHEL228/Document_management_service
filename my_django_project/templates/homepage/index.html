@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}DocFlow – Главная страница{% endblock %}
+{% block title %}Главная – DocFlow{% endblock %}
 
 {% block content %}
 <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
@@ -13,9 +13,9 @@
         <hr class="my-4">
         <p class="fw-semibold">Основные разделы системы:</p>
         <div class="d-flex flex-wrap gap-2">
-            <a href="/documents/" class="btn btn-primary btn-lg">Документы</a>
-            <a href="/categories/" class="btn btn-secondary btn-lg">Категории</a>
-            <a href="/versions/" class="btn btn-outline-dark btn-lg">Журнал версий (ЭЦП)</a>
+            <a href="{% url 'documents:list' %}" class="btn btn-primary btn-lg">Документы</a>
+            <a href="{% url 'categories:list' %}" class="btn btn-secondary btn-lg">Категории</a>
+            <a href="{% url 'versions:list' %}" class="btn btn-outline-dark btn-lg">Журнал версий (ЭЦП)</a>
         </div>
     </div>
 </div>

@@ -43,4 +43,4 @@ def find_category_by_id(
     for category in categories:
         if category.id == cat_id:
             return category
-    return None
+    return None

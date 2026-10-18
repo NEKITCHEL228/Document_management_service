@@ -1,35 +1,51 @@
 {% extends "base.html" %}
 
-{% block title %}Документ: {{ document.title }}{% endblock %}
+{% block title %}
+    {% if document %}
+        {{ document.title|default:"Без названия" }} – DocFlow
+    {% else %}
+        Документ не найден – DocFlow
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-<div class="card shadow-sm my-4 border">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <span>Документ #{{ document.id }}</span>
-        <span class="badge bg-light text-primary">ID: {{ document.id }}</span>
-    </div>
-    <div class="card-body">
-        <h2 class="card-title mb-3">{{ document.title }}</h2>
-        <div class="mb-4">
-            <strong>Тематические категории:</strong>
-            <div class="mt-2">
-                {% if document.categories %}
-                    {% for cat in document.categories %}
-                    <a href="/categories/{{ cat.id }}/" class="badge bg-info text-dark text-decoration-none me-2 p-2">
-                        {{ cat.name }}
-                    </a>
-                    {% endfor %}
-                {% else %}
-                    <span class="text-muted">Категории не назначены</span>
-                {% endif %}
+    {% if document %}
+        <div class="card shadow-sm my-4 border doc-card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <span>Документ #{{ document.id }}</span>
+                <span class="badge bg-light text-primary">ID: {{ document.id }}</span>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title h2 mb-3">{{ document.title|default:"Без названия" }}</h1>
+                <div class="mb-4">
+                    <strong>Тематические категории:</strong>
+                    <div class="mt-2">
+                        {% if document.categories %}
+                            {% for cat in document.categories %}
+                            <a href="{% url 'categories:detail' cat.id %}" class="badge bg-info text-dark text-decoration-none me-2 p-2 category-badge">
+                                {{ cat.name }}
+                            </a>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted">Категории не назначены</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="p-3 bg-light rounded border mb-4">
+                    <h6 class="text-muted">Содержание документа:</h6>
+                    <p class="card-text mb-0" style="white-space: pre-wrap;">{{ document.content|default:"Содержимое отсутствует" }}</p>
+                </div>
+                <a href="{% url 'documents:list' %}" class="btn btn-outline-secondary">← к списку документов</a>
+                <a href="{% url 'versions:list' %}" class="btn btn-outline-info ms-2">Журнал версий</a>
             </div>
         </div>
-        <div class="p-3 bg-light rounded border mb-4">
-            <h6 class="text-muted">Содержание документа:</h6>
-            <p class="card-text mb-0" style="white-space: pre-wrap;">{{ document.content|default:"Содержимое отсутствует" }}</p>
+    {% else %}
+        <div class="card border-danger shadow-sm my-4">
+            <div class="card-body text-center py-5">
+                <h1 class="text-danger display-5 fw-bold mb-3">Документ не найден</h1>
+                <p class="lead text-muted mb-4">Документ с указанным идентификатором отсутствует в системе.</p>
+                <a href="{% url 'documents:list' %}" class="btn btn-outline-secondary">← к списку документов</a>
+            </div>
         </div>
-        <a href="/documents/" class="btn btn-outline-secondary">← к списку документов</a>
-        <a href="/versions/" class="btn btn-outline-info ms-2">Журнал версий</a>
-    </div>
-</div>
+    {% endif %}
 {% endblock %}

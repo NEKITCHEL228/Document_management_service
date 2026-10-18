@@ -204,4 +204,4 @@ def load_data_from_all_files() -> tuple:
     users = load_users()
     documents = load_documents(categories)
     versions = load_versions(documents, users)
-    return categories, users, documents, versions
+    return categories, users, documents, versions

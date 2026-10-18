@@ -1,0 +1,46 @@
+/* DocFlow custom styles for PR6 */
+body {
+    min-height: 100vh;
+}
+
+.doc-card {
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.doc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.category-badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+    border-radius: 4px;
+}
+
+.version-status {
+    font-weight: 600;
+    padding: 0.35em 0.65em;
+    border-radius: 4px;
+}
+
+.version-status-signed {
+    background-color: #198754;
+    color: #ffffff;
+}
+
+.version-status-unsigned {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.docflow-footer {
+    border-top: 1px solid #e9ecef;
+    padding-top: 1rem;
+    color: #6c757d;
+}

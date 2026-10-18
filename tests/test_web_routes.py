@@ -4,7 +4,8 @@ from pathlib import Path
 from datetime import date
 import pytest
 
-# Добавляем каталог my_django_project в sys.path для импорта Document_management_service
+# Добавляем каталог my_django_project в sys.path
+# для импорта Document_management_service
 DJANGO_DIR = Path(__file__).resolve().parent.parent / "my_django_project"
 if str(DJANGO_DIR) not in sys.path:
     sys.path.insert(0, str(DJANGO_DIR))
@@ -40,12 +41,27 @@ def test_homepage_status(client):
     assert "DocFlow" in response.content.decode("utf-8")
 
 
-def test_homepage_page_helper():
-    """Проверка вспомогательной функции-каркаса page() из homepage.views."""
-    from homepage.views import page
-    rendered = page("Заголовок", "<p>Контент</p>")
-    assert "Заголовок" in rendered
-    assert "<p>Контент</p>" in rendered
+from django.urls import reverse  # noqa: E402
+
+
+def test_homepage_page_helper_removed():
+    """Проверка удаления устаревшей функции-каркаса page() в ПР6."""
+    import homepage.views as hp_views
+    msg = "Функция page() должна быть удалена в ПР6"
+    assert not hasattr(hp_views, "page"), msg
+
+
+def test_reverse_urls():
+    """Проверка именованных маршрутов и пространств имен (namespaces)."""
+    assert reverse("homepage:index") == "/"
+    assert reverse("documents:list") == "/documents/"
+    assert reverse("documents:detail", kwargs={"doc_id": 1}) == "/documents/1/"
+    assert reverse("categories:list") == "/categories/"
+    cat_url = reverse("categories:detail", kwargs={"cat_id": 1})
+    assert cat_url == "/categories/1/"
+    assert reverse("versions:list") == "/versions/"
+    ver_url = reverse("versions:detail", kwargs={"ver_id": 1})
+    assert ver_url == "/versions/1/"
 
 
 def test_documents_routes(client):
@@ -112,3 +128,12 @@ def test_find_by_id_helpers():
     )
     assert find_version_by_id([ver], 7) == ver
     assert find_version_by_id([ver], 8) is None
+
+
+def test_static_files_rendered(client):
+    """Проверка подключения статических файлов и скриптов в шаблоне."""
+    response = client.get("/")
+    content = response.content.decode("utf-8")
+    assert "css/style.css" in content
+    assert "js/main.js" in content
+    assert "current-year" in content

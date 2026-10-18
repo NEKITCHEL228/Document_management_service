@@ -80,4 +80,4 @@ def find_document_by_id(
     for document in documents:
         if document.id == doc_id:
             return document
-    return None
+    return None

@@ -33,7 +33,7 @@ def test_document_add_and_remove_category():
 
 
 def test_document_from_data_linking():
-    """Проверка связывания документа с объектами категорий при чтении из JSON."""
+    """Проверка связывания документа с категориями при чтении из JSON."""
     cat_hr = Category(id=1, name="Кадры", description="")
     cat_legal = Category(id=2, name="Юристы", description="")
     all_categories = [cat_hr, cat_legal]

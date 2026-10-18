@@ -49,4 +49,4 @@ def test_version_file_size_validation():
     oversized_version = Version(2, "2.0", 25.0, date.today(), True, user, doc)
 
     assert valid_version.is_valid_size(max_size_mb=10.0) is True
-    assert oversized_version.is_valid_size(max_size_mb=10.0) is False
+    assert oversized_version.is_valid_size(max_size_mb=10.0) is False

@@ -49,4 +49,4 @@ def find_user_by_id(users: List[User], user_id: int) -> Optional[User]:
     for user in users:
         if user.id == user_id:
             return user
-    return None
+    return None

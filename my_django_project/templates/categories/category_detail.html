@@ -1,20 +1,36 @@
 {% extends "base.html" %}
 
-{% block title %}Категория: {{ category.name }}{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ category.name|default:"Без названия" }} – DocFlow
+    {% else %}
+        Категория не найдена – DocFlow
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-<div class="card shadow-sm my-4 border">
-    <div class="card-header bg-secondary text-white">
-        Категория #{{ category.id }}
-    </div>
-    <div class="card-body">
-        <h3 class="card-title text-primary mb-3">{{ category.name }}</h3>
-        <p class="card-text">
-            <strong>Описание:</strong> {{ category.description|default:"Описание отсутствует" }}
-        </p>
-        <hr>
-        <a href="/categories/" class="btn btn-outline-secondary">← к списку категорий</a>
-        <a href="/documents/" class="btn btn-outline-primary ms-2">К реестру документов</a>
-    </div>
-</div>
+    {% if category %}
+        <div class="card shadow-sm my-4 border doc-card">
+            <div class="card-header bg-secondary text-white">
+                Категория #{{ category.id }}
+            </div>
+            <div class="card-body">
+                <h1 class="card-title h3 text-primary mb-3">{{ category.name|default:"Без названия" }}</h1>
+                <p class="card-text">
+                    <strong>Описание:</strong> {{ category.description|default:"Описание отсутствует" }}
+                </p>
+                <hr>
+                <a href="{% url 'categories:list' %}" class="btn btn-outline-secondary">← к списку категорий</a>
+                <a href="{% url 'documents:list' %}" class="btn btn-outline-primary ms-2">К реестру документов</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="card border-danger shadow-sm my-4">
+            <div class="card-body text-center py-5">
+                <h1 class="text-danger display-5 fw-bold mb-3">Категория не найдена</h1>
+                <p class="lead text-muted mb-4">Категория с указанным идентификатором отсутствует в системе.</p>
+                <a href="{% url 'categories:list' %}" class="btn btn-outline-secondary">← к списку категорий</a>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

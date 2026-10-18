@@ -1,0 +1,9 @@
+{% if version.is_signed %}
+<span class="badge bg-success version-status version-status-signed">
+    Подписан ЭЦП
+</span>
+{% else %}
+<span class="badge bg-warning text-dark version-status version-status-unsigned">
+    Черновик (Не подписан)
+</span>
+{% endif %}
